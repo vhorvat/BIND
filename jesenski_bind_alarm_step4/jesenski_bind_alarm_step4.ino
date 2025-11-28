@@ -35,7 +35,6 @@ void setup() {
 }
 
 void loop() {
-  // ── Button handling with debounce ─────────────────────────
   int reading = digitalRead(BUTTON_PIN);
   if (reading != lastButtonReading) {
     lastDebounceTime = millis();
@@ -43,9 +42,9 @@ void loop() {
   if ((millis() - lastDebounceTime) > DEBOUNCE_DELAY) {
     if (reading != buttonState) {
       buttonState = reading;
-      if (buttonState == LOW) {  // Button pressed
+      if (buttonState == LOW) {  
         armed = !armed;
-        noTone(BUZZER_PIN);      // Stop siren immediately
+        noTone(BUZZER_PIN);      
         sirenActive = false;
         alarmStartTime = 0;
 
@@ -62,7 +61,6 @@ void loop() {
   }
   lastButtonReading = reading;
 
-  // ── Motion detection & siren (only when armed) ────────────
   bool motion = (digitalRead(PIR_PIN) == HIGH);
 
   if (armed && motion) {
@@ -70,24 +68,23 @@ void loop() {
 
     if (!sirenActive) {
       sirenActive = true;
-      alarmStartTime = millis();  // Start timer
+      alarmStartTime = millis();  
     }
 
     unsigned long currentTime = millis();
 
-    // Check if alarm duration exceeded
     if (ALARM_DURATION > 0 && currentTime - alarmStartTime > ALARM_DURATION) {
       noTone(BUZZER_PIN);
-      return;  // Skip siren until next trigger
+      return;  
     }
 
-    // Non-blocking siren sweep
+
     unsigned long sirenTime = currentTime % SIREN_CYCLE;
     int freq;
     if (sirenTime < SIREN_CYCLE / 2) {
-      freq = map(sirenTime, 0, SIREN_CYCLE / 2, MIN_FREQ, MAX_FREQ);  // Sweep up
+      freq = map(sirenTime, 0, SIREN_CYCLE / 2, MIN_FREQ, MAX_FREQ);  
     } else {
-      freq = map(sirenTime - SIREN_CYCLE / 2, 0, SIREN_CYCLE / 2, MAX_FREQ, MIN_FREQ);  // Sweep down
+      freq = map(sirenTime - SIREN_CYCLE / 2, 0, SIREN_CYCLE / 2, MAX_FREQ, MIN_FREQ);  
     }
     tone(BUZZER_PIN, freq);
   } else {

@@ -27,7 +27,6 @@ void setup() {
 
 
 void loop() {
-  // ── Button handling with debounce ─────────────────────────
   int reading = digitalRead(BUTTON_PIN);
   if (reading != lastButtonReading) {
     lastDebounceTime = millis();
@@ -35,7 +34,7 @@ void loop() {
   if ((millis() - lastDebounceTime) > DEBOUNCE_DELAY) {
     if (reading != buttonState) {
       buttonState = reading;
-      if (buttonState == LOW) {  // Button pressed
+      if (buttonState == LOW) {  
         armed = !armed;
 
 

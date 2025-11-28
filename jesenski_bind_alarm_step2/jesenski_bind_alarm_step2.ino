@@ -17,7 +17,7 @@ bool blueLedState = LOW;
 
 
 void setup() {
-  pinMode(BUTTON_PIN, INPUT_PULLUP);  // Internal pull-up
+  pinMode(BUTTON_PIN, INPUT_PULLUP);  
   pinMode(GREEN_LED, OUTPUT);
   pinMode(RED_LED, OUTPUT);
   pinMode(BLUE_LED, OUTPUT);
@@ -37,7 +37,7 @@ void loop() {
   if ((millis() - lastDebounceTime) > DEBOUNCE_DELAY) {
     if (reading != buttonState) {
       buttonState = reading;
-      if (buttonState == LOW) {  // Button pressed
+      if (buttonState == LOW) {  
         armed = !armed;
         blueBlinkEnabled = !blueBlinkEnabled;
 
